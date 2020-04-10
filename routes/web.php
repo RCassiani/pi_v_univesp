@@ -20,3 +20,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function () {
+    //Segurança
+    Route::prefix('security')->group(function (){
+
+        //Usuários
+        Route::resource('users', 'UserController')->except(['destroy']);;
+        Route::get('users/destroy/{id}', 'UserController@destroy')->name('users.destroy');
+
+        //Permissões
+        Route::resource('roles', 'RoleController')->except(['destroy']);
+        Route::get('roles/{id}/delete', 'RoleController@destroy')->name('roles.destroy');
+
+    });
+});
