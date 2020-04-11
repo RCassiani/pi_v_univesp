@@ -6,6 +6,9 @@
             <div class="card">
                 <div class="card-header">
                     <h4><b>Publicações</b></h4>
+                    @if($subject)
+                        {{$subject->classe->name}} - {{$subject->name}}
+                    @endif
                     <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">
                         Nova Publicação
                     </a>
@@ -15,6 +18,7 @@
                         @foreach($posts as $post)
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>
+                                    @if(empty($subject)) <i>({{$post->subject->classe->name}} - {{$post->subject->name}}) - </i> @endif
                                     <b>{{ $post->title }}:</b>
                                     {{ substr($post->body, 0, 40) }}...
                                 </span>

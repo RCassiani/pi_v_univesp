@@ -8,7 +8,11 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="pull-left">
-                            <h4><b>Assuntos - {{__('label.list')}}</b></h4>
+                            @if($class)
+                                <h4><b>Assuntos - {{$class->name}}</b></h4>
+                            @else
+                                <h4><b>Assuntos - {{__('label.list')}}</b></h4>
+                            @endif
                         </div>
                         <div class="pull-right pb-4">
                             @can('subject-create')
@@ -48,8 +52,8 @@
                 const url = "{{route('subjects.index', '_id_')}}".replace('_id_', class_id);
 
                 let arrColumn = [{data: 'name', name: 'name'}];
-                if(class_id <= 0) {
-                    arrColumn.push({data: 'classes.name', name: 'classes.name'});
+                if (class_id <= 0) {
+                    arrColumn.push({data: 'classe.name', name: 'classe.name'});
                 }
                 arrColumn.push({data: 'action', name: 'action', orderable: false, searchable: false});
 

@@ -30,10 +30,12 @@ class SubjectController extends Controller
      */
     public function index(Request $request, $class_id = 0)
     {
+        $class = Classes::find($class_id);
+
         if ($request->ajax()) {
             $data = ($class_id)
-                ? $this->subject->with(['classes'])->where('class_id', $class_id)->orderBy('name')
-                : $this->subject->with(['classes'])->orderBy('name');
+                ? $this->subject->where('class_id', $class_id)->orderBy('name')
+                : $this->subject->with(['classe'])->orderBy('name');
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -52,7 +54,7 @@ class SubjectController extends Controller
                 ->make(true);
         }
 
-        return view('subjects.index', compact('class_id'));
+        return view('subjects.index', compact('class_id', 'class'));
     }
 
     /**

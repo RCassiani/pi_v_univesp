@@ -10,7 +10,7 @@ class Subject extends Model
         'name', 'class_id',
     ];
 
-    public function classes() {
-        return $this->hasOne('App\Models\Classes', 'id', 'class_id');
+    public function classe() {
+        return $this->belongsTo('App\Models\Classes', 'class_id', 'id');
     }
 }

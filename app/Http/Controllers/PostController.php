@@ -25,10 +25,12 @@ class PostController extends Controller
      */
     public function index($subject_id = 0)
     {
+        $subject = Subject::find($subject_id);
+
         $posts = ($subject_id)
             ? Post::where('subject_id', $subject_id)->latest()->get()
-            : Post::latest()->get();
-        return view('posts.index', compact('posts'));
+            : Post::with('subject')->latest()->get();
+        return view('posts.index', compact('posts', 'subject'));
     }
 
     /**

@@ -85,7 +85,7 @@ class UserController extends Controller
         try {
 
             $input = $request->all();
-            $input['password'] = Hash::make('1234');;
+            $input['password'] = Hash::make(1234);
 
             $user = $this->user->create($input);
 
