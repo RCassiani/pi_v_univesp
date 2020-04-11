@@ -8,21 +8,20 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="pull-left">
-                            <h4><b>Usuários - {{__('label.list')}}</b></h4>
+                            <h4><b>Matérias - {{__('label.list')}}</b></h4>
                         </div>
                         <div class="pull-right pb-4">
-                            @can('user-create')
-                                {!! btnNew(route('users.create')) !!}
+                            @can('class-create')
+                                {!! btnNew(route('classes.create')) !!}
                             @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"
-                               id="user-table">
+                               id="class-table">
                             <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Email</th>
                                 <th width="100px">{{__('label.form.action')}}</th>
                             </tr>
                             </thead>
@@ -41,13 +40,12 @@
         <script>
             $(function () {
 
-                var table = $('#user-table').DataTable({
+                var table = $('#class-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('users.index') }}",
+                    ajax: "{{ route('classes.index') }}",
                     columns: [
                         {data: 'name', name: 'name'},
-                        {data: 'email', name: 'email'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ],
                     language: {

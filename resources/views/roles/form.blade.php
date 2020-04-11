@@ -5,11 +5,11 @@
 @endpush
 
 
-<div class="box border-0">
-    <div class="box-header">
-        <h4><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;<b>{{$page_title}}</b></h4>
+<div class="card">
+    <div class="card-header">
+        <h4><b>{{$page_title}}</b></h4>
     </div>
-    <div class="box-body">
+    <div class="card-body">
         <div class="row m-b">
             <div class="col-sm-8">
                 {{ Form::label('name', 'Nome') }} <span style="color:red">*</span>
@@ -36,12 +36,14 @@
             </div>
         </div>
     </div>
-    <div class="p-a">
-        {!! btnCancel(route('roles.index')) !!}
-        &nbsp&nbsp&nbsp
-        @canany(['role-create', 'role-edit'])
-            {!! btnSave() !!}
-        @endcanany
+    <div class="card-footer">
+        <div class="p-a">
+            {!! btnCancel(route('roles.index')) !!}
+            &nbsp&nbsp&nbsp
+            @canany(['role-create', 'role-edit'])
+                {!! btnSave() !!}
+            @endcanany
+        </div>
     </div>
 </div>
 

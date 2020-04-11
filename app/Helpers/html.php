@@ -77,7 +77,7 @@ if (!function_exists('btnNew')) {
     function btnNew($url)
     {
         return '<a href="' . $url . '">
-                <button type="button" name="create_record" id="create_record" class="btn btn-success" style="padding-left: 0.5rem; padding-right: 0.5rem">
+                <button type="button" name="create_record" id="create_record" class="btn btn-success">
                 <i class="fa fa-plus"></i>
                 &nbsp;' . trans('sys.btn.new') . '
                 </button>

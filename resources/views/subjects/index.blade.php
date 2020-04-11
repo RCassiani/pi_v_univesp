@@ -8,21 +8,23 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="pull-left">
-                            <h4><b>Usuários - {{__('label.list')}}</b></h4>
+                            <h4><b>Assuntos - {{__('label.list')}}</b></h4>
                         </div>
                         <div class="pull-right pb-4">
-                            @can('user-create')
-                                {!! btnNew(route('users.create')) !!}
+                            @can('subject-create')
+                                {!! btnNew(route('subjects.create')) !!}
                             @endcan
                         </div>
                     </div>
                     <div class="table-responsive">
                         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"
-                               id="user-table">
+                               id="subject-table">
                             <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th>Email</th>
+                                @if($class_id <= 0)
+                                    <th>Matéria</th>
+                                @endif
                                 <th width="100px">{{__('label.form.action')}}</th>
                             </tr>
                             </thead>
@@ -33,6 +35,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" id="class_id" name="class_id" value="{{$class_id}}">
     </div>
 
 
@@ -41,15 +44,22 @@
         <script>
             $(function () {
 
-                var table = $('#user-table').DataTable({
+                const class_id = $("#class_id").val();
+                const url = "{{route('subjects.index', '_id_')}}".replace('_id_', class_id);
+
+                let arrColumn = [{data: 'name', name: 'name'}];
+                if(class_id <= 0) {
+                    arrColumn.push({data: 'classes.name', name: 'classes.name'});
+                }
+                arrColumn.push({data: 'action', name: 'action', orderable: false, searchable: false});
+
+                console.log(arrColumn);
+
+                var table = $('#subject-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('users.index') }}",
-                    columns: [
-                        {data: 'name', name: 'name'},
-                        {data: 'email', name: 'email'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ],
+                    ajax: url,
+                    columns: arrColumn,
                     language: {
                         url: "{{asset('datatable-pt-BR.json')}}"
                     }

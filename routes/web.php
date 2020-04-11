@@ -22,6 +22,25 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
+
+
+    //Publicações
+    Route::resource('posts', 'PostController');
+    Route::get('posts/{subject_id?}/list', 'PostController@index')->name('posts.indexList');
+
+    //Comentários
+    Route::resource('comments', 'CommentController');
+
+    //Matérias
+    Route::resource('classes', 'ClassController')->except(['destroy']);;
+    Route::get('classes/destroy/{id}', 'ClassController@destroy')->name('classes.destroy');
+
+    //Assuntos
+    Route::resource('subjects', 'SubjectController')->except(['destroy', 'index', 'show']);
+    Route::get('subjects/{class_id?}', 'SubjectController@index')->name('subjects.index');
+    Route::get('subjects/destroy/{id}', 'SubjectController@destroy')->name('subjects.destroy');
+    Route::get('classes/{id}/subjects', 'SubjectController@getClasseSubjects')->name('classes.subjects');
+
     //Segurança
     Route::prefix('security')->group(function (){
 

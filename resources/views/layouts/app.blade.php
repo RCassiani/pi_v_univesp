@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sys.css') }}" rel="stylesheet">
     @stack('css')
 </head>
 <body>
@@ -39,7 +40,16 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Conteúdos</a>
+                        <a class="nav-link" href="{{route('home')}}">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('classes.index')}}">Matérias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('subjects.index')}}">Assuntos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('posts.index')}}">Publicações</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"

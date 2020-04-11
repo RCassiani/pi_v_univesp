@@ -8,10 +8,10 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="pull-left">
-                            <h4><i class="fa fa-list"></i>&nbsp;&nbsp;<b>Grupos de Acesso - {{__('label.list')}}</b>
+                            <h4><b>Grupos de Acesso - {{__('label.list')}}</b>
                             </h4>
                         </div>
-                        <div class="pull-right">
+                        <div class="pull-right pb-4">
                             @can('role-create')
                                 {!! btnNew(route('roles.create')) !!}
                             @endcan

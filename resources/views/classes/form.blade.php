@@ -11,16 +11,9 @@
             @enderror
         </div>
         <div class="form-group">
-            {{ Form::label('email', 'E-mail') }} <span style="color:red">*</span>
-            {{ Form::email('email', old('email'), ['class' => ($errors->has('email')) ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
-            @error('email')
-            <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
-            @enderror
-        </div>
-        <div class="form-group">
-            {{ Form::label('roles', 'Grupo de Acesso') }} <span style="color:red">*</span>
-            {{ Form::select('roles', $roles, (isset($userRole) ? $userRole : null ), ['id' => 'roles', 'placeholder' => 'Selecione...','class' => ($errors->has('roles')) ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
-            @error('roles')
+            {{ Form::label('image', 'Imagem') }} <span style="color:red">*</span>
+            {{ Form::text('image', old('image'), ['class' => ($errors->has('image')) ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
+            @error('image')
             <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
         </div>
@@ -28,7 +21,7 @@
     </div>
     <div class="card-footer">
         <div class="p-a">
-            {!! btnForm(route('users.index')) !!}
+            {!! btnForm(route('classes.index')) !!}
         </div>
     </div>
 </div>
