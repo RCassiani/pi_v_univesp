@@ -27,7 +27,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{url('/')}}">
                 {{ config('app.name', 'Laravel') }}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -37,45 +37,48 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('home')}}">Início</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('classes.index')}}">Matérias</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('subjects.index')}}">Assuntos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('posts.index')}}">Publicações</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Segurança
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{route('users.index')}}">Usuários</a>
-                            <a class="dropdown-item" href="{{route('roles.index')}}">Permissões</a>
-                        </div>
-                    </li>
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
-                    <!-- Authentication Links -->
-                    @guest
+                @guest
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @endif
-                    @else
+                    </ul>
+                @else
+                <!-- Left Side Of Navbar -->
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('classes.index')}}">Matérias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('subjects.index')}}">Assuntos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('posts.index')}}">Publicações</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Segurança
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{route('users.index')}}">Usuários</a>
+                                <a class="dropdown-item" href="{{route('roles.index')}}">Permissões</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- // add this dropdown // -->
+                        <li class="nav-item dropdown">
+                            <a id="notifications" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <span class="glyphicon glyphicon-user"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="notificationsMenu" id="notificationsMenu">
+                                <li class="dropdown-header">No notifications</li>
+                            </ul>
+                        </li>
+                        <!-- Authentication Links -->
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -95,8 +98,8 @@
                                 </form>
                             </div>
                         </li>
-                    @endguest
-                </ul>
+                    </ul>
+                @endguest
             </div>
         </div>
     </nav>
