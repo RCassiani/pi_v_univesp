@@ -9,9 +9,11 @@
                     @if($subject)
                         {{$subject->classe->name}} - {{$subject->name}}
                     @endif
-                    <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">
-                        Nova Publicação
-                    </a>
+                    @can('post-create')
+                        <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">
+                            Nova Publicação
+                        </a>
+                    @endcan
                 </div>
                 <div class="card-body">
                     <ul class="list-group">

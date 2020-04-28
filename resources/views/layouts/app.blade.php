@@ -46,42 +46,72 @@
                 @else
                 <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('classes.index')}}">Matérias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('subjects.index')}}">Assuntos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('posts.index')}}">Publicações</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Segurança
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('users.index')}}">Usuários</a>
-                                <a class="dropdown-item" href="{{route('roles.index')}}">Permissões</a>
-                            </div>
-                        </li>
+                        @can('class-list')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('classes.index')}}">Matérias</a>
+                            </li>
+                        @endcan
+                        @can(['subject-list', 'subject-create'])
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('subjects.index')}}">Assuntos</a>
+                            </li>
+                        @endcan
+                        @can(['post-list', 'post-create'])
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('posts.index')}}">Publicações</a>
+                            </li>
+                        @endcan
+                        @canany(['role-list', 'user-list'])
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Segurança
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @can('user-list')
+                                        <a class="dropdown-item" href="{{route('users.index')}}">Usuários</a>
+                                    @endcan
+                                    @can('role-list')
+                                        <a class="dropdown-item" href="{{route('roles.index')}}">Permissões</a>
+                                    @endcan
+                                </div>
+                            </li>
+                        @endcanany
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- // add this dropdown // -->
                         <li class="nav-item dropdown">
-                            <a id="notifications" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span class="glyphicon glyphicon-user"></span>
+                            <a href="#" class="nav-link dropdown-toggle notification" data-toggle="dropdown"
+                               role="button"
+                               aria-expanded="false">
+                                <span style="font-size: x-large">
+                                    <i class="fa fa-bell"></i>
+                                </span>
+                                @if(count(Auth::user()->unreadNotifications))
+                                    <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
+                                @endif
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="notificationsMenu" id="notificationsMenu">
-                                <li class="dropdown-header">No notifications</li>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li class="nav-item">
+                                    @foreach (Auth::user()->unreadNotifications as $notification)
+                                        <a href="{{ route('posts.show', $notification->data['post']['id']) }}"
+                                           data-notif-id="{{$notification->id}}"
+                                           class="dropdown-item"
+                                        >
+                                            <i>{{ $notification->data["user"]["name"] }}</i>
+                                            comentou na publicação
+                                            <b>{{ $notification->data["post"]["title"] }}</b>
+                                        </a>
+                                    @endforeach
+                                </li>
                             </ul>
                         </li>
                         <!-- Authentication Links -->
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle user-card" href="#" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
 
@@ -113,6 +143,25 @@
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{!! asset('js/sys.js') !!}"></script>
+<script>
+    $(function () {
+        $('a[data-notif-id]').click(function () {
+
+            var notif_id = $(this).data('notifId');
+            var targetHref = $(this).attr('href');
+
+            $.post('/comments/markNotifAsRead',
+                {
+                    '_token': "{{ csrf_token() }}",
+                    'notif_id': notif_id
+                }, function (data) {
+                    data.success ? (window.location.href = targetHref) : false;
+                }, 'json');
+
+            return false;
+        });
+    });
+</script>
 @stack('js')
 
 </body>

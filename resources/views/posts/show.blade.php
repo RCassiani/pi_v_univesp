@@ -19,14 +19,14 @@
 
                     <hr/>
                     <h4>Comentar</h4>
-                    <form method="post" action="{{ route('comments.store'   ) }}">
+                    <form method="post" action="{{ route('comments.store') }}">
                         @csrf
                         <div class="form-group">
-                            <textarea class="form-control" name="body"></textarea>
+                            <textarea class="form-control" name="body" required></textarea>
                             <input type="hidden" name="post_id" value="{{ $post->id }}"/>
                         </div>
                         <div class="form-group">
-                            <input type="submit" class="btn btn-success" value="Add Comment"/>
+                            <input type="submit" class="btn btn-success" value="Adicionar Comentário"/>
                         </div>
                     </form>
                 </div>

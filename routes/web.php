@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Comentários
     Route::resource('comments', 'CommentController');
+    Route::post('comments/markNotifAsRead', 'CommentController@markNotifAsRead');
 
     //Matérias
     Route::resource('classes', 'ClassController')->except(['destroy']);;

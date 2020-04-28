@@ -30,6 +30,7 @@ class PostController extends Controller
         $posts = ($subject_id)
             ? Post::where('subject_id', $subject_id)->latest()->get()
             : Post::with('subject')->latest()->get();
+
         return view('posts.index', compact('posts', 'subject'));
     }
 
@@ -58,7 +59,10 @@ class PostController extends Controller
             'body' => 'required',
         ]);
 
-        Post::create($request->all());
+        $input = $request->all();
+        $input['user_id'] = auth()->user()->id;
+
+        Post::create($input);
 
         return redirect()->route('posts.index');
     }
@@ -71,6 +75,14 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
+
+        $notifications = auth()->user()->notifications()->get();
+        foreach ($notifications as $notification) {
+            if ($notification->data["post"]["id"] == $id) {
+                $notification->markAsRead();
+            }
+        }
+
         return view('posts.show', compact('post'));
     }
 
