@@ -59,3 +59,25 @@
     background-color: gray;
     color: white !important;
 }
+
+.new-notification {
+    width: 300px !important;
+}
+
+.break {
+    word-break: break-all !important;
+    white-space: unset !important;
+}
+
+.avatar {
+    color: #fff;
+    margin: 0 auto 30px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    z-index: 9;
+    background: #3490dc;
+    padding: 15px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}

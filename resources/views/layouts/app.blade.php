@@ -94,14 +94,19 @@
                                 @endif
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                <li class="nav-item">
+                                <li class="nav-item new-notification">
                                     @foreach (Auth::user()->unreadNotifications as $notification)
                                         <a href="{{ route('posts.show', $notification->data['post']['id']) }}"
                                            data-notif-id="{{$notification->id}}"
-                                           class="dropdown-item"
+                                           class="dropdown-item break"
                                         >
                                             <i>{{ $notification->data["user"]["name"] }}</i>
-                                            comentou na publicação
+                                            @isset($notification->data["comment"]["parent_id"])
+                                                respondeu seu comentário
+                                            @else
+                                                comentou
+                                            @endisset
+                                            na publicação
                                             <b>{{ $notification->data["post"]["title"] }}</b>
                                         </a>
                                     @endforeach
