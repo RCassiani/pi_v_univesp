@@ -24,6 +24,11 @@ return [
             'delete' => 'Registro excluído com sucesso.',
 
             'update_password' => 'Senha alterada com sucesso.',
+
+            'comment' => [
+                'insert'   => 'Comentário adicionado com sucesso.',
+                'delete' => 'Comentário excluído com sucesso.',
+            ]
         ],
 
         'error' => [

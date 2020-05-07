@@ -96,7 +96,7 @@
                             <ul class="dropdown-menu dropdown-menu-right" role="menu">
                                 <li class="nav-item new-notification">
                                     @foreach (Auth::user()->unreadNotifications as $notification)
-                                        <a href="{{ route('posts.show', $notification->data['post']['id']) }}"
+                                        <a href="{{ route('posts.show', $notification->data['post']['id']) }}?cmd={{$notification->data["comment"]["id"]}}"
                                            data-notif-id="{{$notification->id}}"
                                            class="dropdown-item break"
                                         >

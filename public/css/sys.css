@@ -81,3 +81,10 @@
     padding: 15px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
+
+.comment-active {
+    box-shadow: 5px 10px #3490dc;
+    border: 1px solid gray;
+    padding: 10px;
+    margin: 15px;
+}

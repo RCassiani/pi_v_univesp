@@ -1,5 +1,16 @@
 @extends('layouts.app')
 
+@push('css')
+    <style>
+        div[id*="comment-"] {
+            -webkit-transition: all 0.5s ease;
+            -moz-transition: all 0.5s ease;
+            -o-transition: all 0.5s ease;
+            transition: all 0.5s ease;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -50,6 +61,26 @@
         $(function () {
             let body = $(".post-body").text();
             $(".post-body").html(urlify(body));
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const comment_id = urlParams.get('cmd');
+
+            if (comment_id) {
+                $('html, body').animate({
+                    scrollTop: $("#comment-" + comment_id).offset().top - $(window).height() / 2
+                }, 2000);
+
+                // $("#comment-" + comment_id).addClass('comment-active', 5000, function () {
+                //     console.log(this);
+                // });
+
+                var $el = $("#comment-" + comment_id).addClass("comment-active");
+
+                setTimeout(function () {
+                    $el.removeClass("comment-active");
+                }, 5000);
+            }
         })
     </script>
 @endpush

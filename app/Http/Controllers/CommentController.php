@@ -42,9 +42,9 @@ class CommentController extends Controller
             }
         }
 
-        toast()->success(trans('sys.msg.success.save'))->width('25rem');
+        toast()->success(trans('sys.msg.success.comment.insert'))->width('25rem');
 
-        return back();
+        return view('posts.show', compact('post'));
     }
 
     public function markNotifAsRead(Request $request)
