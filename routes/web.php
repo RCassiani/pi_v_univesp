@@ -21,6 +21,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', 'HomeController@index');
 
+    //Alterar Senha
+    Route::resource('password_change', 'Auth\ChangePasswordController');
+
     //Publicações
     Route::resource('posts', 'PostController');
     Route::get('posts/{subject_id?}/list', 'PostController@index')->name('posts.indexList');

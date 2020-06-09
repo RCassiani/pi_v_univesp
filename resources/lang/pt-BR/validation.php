@@ -142,8 +142,7 @@ return [
     'attributes' => [
         'name' => 'nome',
         'email' => 'e-mail',
-        'description' => 'descrição'
+        'description' => 'descrição',
+        'new_password' => 'nova senha',
     ],
-
-    #TODO - Criar todos os atributos das tabelas
 ];

@@ -35,6 +35,7 @@ return [
             'save'   => 'Não foi possível salvar as informações.',
             'update' => 'Não foi possível atualizar as informações.',
             'delete' => 'Não foi possível excluir as informações.',
+            'find'   => 'Não foi possível encontrar as informações.',
         ],
 
         'extrato' => [
