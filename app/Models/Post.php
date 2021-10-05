@@ -13,7 +13,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'body', 'subject_id', 'type'];
+    protected $fillable = ['title', 'body', 'subject_id', 'type', 'user_id'];
 
     /**
      * The has Many Relationship

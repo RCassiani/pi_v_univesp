@@ -64,6 +64,8 @@ class PostController extends Controller
 
         Post::create($input);
 
+        toast()->success(trans('sys.msg.success.save'))->width('25rem');
+
         return redirect()->route('posts.index');
     }
 

@@ -22,6 +22,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-media-embed": "^30.0.0",
     "datatables.net-bs4": "latest",
     "datatables.net-buttons-bs4": "latest",
     "jquery": "latest",

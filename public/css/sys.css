@@ -88,3 +88,7 @@
     padding: 10px;
     margin: 15px;
 }
+
+.row-form {
+    margin: unset;
+}

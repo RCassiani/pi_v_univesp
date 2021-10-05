@@ -44,7 +44,7 @@ class CommentController extends Controller
 
         toast()->success(trans('sys.msg.success.comment.insert'))->width('25rem');
 
-        return view('posts.show', compact('post'));
+        return redirect("/posts/{$post->id}");
     }
 
     public function markNotifAsRead(Request $request)
@@ -60,4 +60,21 @@ class CommentController extends Controller
             'notification' => $notification
         ]);
     }
+
+    public function uploadImage(Request $request) 
+    { 
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+        
+            $request->file('upload')->move(public_path('images'), $fileName);
+
+            return response()->json([
+                'message' => 'Image uploaded successfully',
+                'url' => asset('images/'.$fileName),
+            ]);
+        }
+    } 
 }
