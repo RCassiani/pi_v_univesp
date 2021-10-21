@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classes;
+use App\Models\Year;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -24,13 +25,16 @@ class ClassController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
+     * @param int $year_id
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function index(Request $request)
+    public function index(Request $request, $year_id = 0)
     {
+        $year = Classes::find($year_id);
+
         if ($request->ajax()) {
-            $data = $this->class->orderBy('name');
+            $data = $this->class->with(['year'])->orderBy('name');
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -45,7 +49,7 @@ class ClassController extends Controller
                 ->make(true);
         }
 
-        return view('classes.index');
+        return view('classes.index', compact('year', 'year_id'));
     }
 
     /**
@@ -55,7 +59,8 @@ class ClassController extends Controller
      */
     public function create()
     {
-        return view('classes.create');
+        $years = Year::pluck('name', 'id')->all();
+        return view('classes.create', compact('years'));
     }
 
     /**
@@ -70,6 +75,7 @@ class ClassController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:classes,name',
             'image' => 'required',
+            'year_id' => 'required',
         ]);
 
         try {
@@ -89,9 +95,11 @@ class ClassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($year_id)
     {
-        //
+        $classes = Classes::where('year_id', $year_id)->get();
+        $year = Year::find($year_id);
+        return view('classes.show', compact('classes', 'year'));
     }
 
     /**
@@ -148,12 +156,34 @@ class ClassController extends Controller
             toast()->success(trans('sys.msg.success.delete'))->width('25rem');
 
             return redirect()->route('classes.index');
-
         } catch (\Exception $e) {
 
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.delete'));
             return back()->withInput();
-
         }
+    }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            $request->file('upload')->move(public_path('images/classes'), $fileName);
+
+            return response()->json([
+                'message' => 'Image uploaded successfully',
+                'url' => asset('images/classes/' . $fileName),
+            ]);
+        }
+    }
+
+    public function getYearClasses($year_id)
+    {
+        $classes = $this->class->select('id', 'name')->where('year_id', $year_id)->get();
+
+        return response()->json($classes);
     }
 }

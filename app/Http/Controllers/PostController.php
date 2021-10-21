@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Year;
 use App\Models\Classes;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -9,13 +10,6 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-
-    private $types = [
-        1 => 'Texto',
-        2 => 'Vídeo',
-        3 => 'Arquivo',
-    ];
-
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +21,12 @@ class PostController extends Controller
     {
         $subject = Subject::find($subject_id);
 
-        $posts = ($subject_id)
-            ? Post::where('subject_id', $subject_id)->latest()->get()
-            : Post::with('subject')->latest()->get();
+        $posts = Post::with('subject')
+            ->when($subject, function ($query, $subject) {
+                return $query->where('subject_id', $subject->id);
+            })
+            ->latest()
+            ->get();
 
         return view('posts.index', compact('posts', 'subject'));
     }
@@ -41,9 +38,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        $classes = Classes::pluck('name', 'id')->all();
-        $types = $this->types;
-        return view('posts.create', compact('classes', 'types'));
+        $years = Year::pluck('name', 'id')->all();
+        return view('posts.create', compact('years'));
     }
 
     /**
@@ -92,6 +88,24 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $classes = Classes::pluck('name', 'id')->all();
-        return view('posts.create', compact('post', 'classes', 'types'));
+        $years = Year::pluck('name', 'id')->all();
+        return view('posts.create', compact('post', 'classes', 'years'));
+    }
+
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            $request->file('upload')->move(public_path('images/posts'), $fileName);
+
+            return response()->json([
+                'message' => 'Image uploaded successfully',
+                'url' => asset('images/posts/' . $fileName),
+            ]);
+        }
     }
 }

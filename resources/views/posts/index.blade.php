@@ -6,8 +6,8 @@
             <div class="card">
                 <div class="card-header">
                     <h4><b>Publicações</b></h4>
-                    @if($subject)
-                        {{$subject->classe->name}} - {{$subject->name}}
+                    @if ($subject)
+                        {{ $subject->classe->name }} - {{ $subject->name }}
                     @endif
                     @can('post-create')
                         <a href="{{ route('posts.create') }}" class="btn btn-success" style="float: right">
@@ -21,8 +21,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span>
                                     @if(empty($subject)) <i>({{$post->subject->classe->name}} - {{$post->subject->name}}) - </i> @endif
-                                    <b>{{ $post->title }}:</b>
-                                    {{ substr($post->body, 0, 40) }}...
+                                    <b>{{ $post->title }}</b>
                                 </span>
                                 <span class="badge badge-primary badge-pill">
                                     <a href="{{ route('posts.show', $post->id) }}" class="btn text-white">Visualizar</a>

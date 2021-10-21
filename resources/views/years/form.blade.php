@@ -17,18 +17,11 @@
                 <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
         </div>
-        <div class="form-group">
-            {{ Form::label('year_id', 'Ano') }} <span style="color:red">*</span>
-            {{ Form::select('year_id', $years, null, ['id' => 'year_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('year_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
-            @error('year_id')
-                <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
-            @enderror
-        </div>
         <p class="text-muted"><span style="color:red">*</span> Campos obrigatórios</p>
     </div>
     <div class="card-footer">
         <div class="p-a">
-            {!! btnForm(route('classes.index')) !!}
+            {!! btnForm(route('years.index')) !!}
         </div>
     </div>
 </div>
@@ -60,7 +53,7 @@
         function MyCustomUploadAdapterPlugin(editor) {
             editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
                 // Configure the URL to the upload script in your back-end here!
-                const fileDest = "{{ route('classes.uploadImage', ['_token' => csrf_token()]) }}";
+                const fileDest = "{{route('years.uploadImage', ['_token' => csrf_token() ])}}";
                 return new MyUploadAdapter(loader, fileDest);
             };
         }

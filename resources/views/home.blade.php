@@ -5,19 +5,19 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card-deck">
-                    @foreach($classes as $class)
-                        <div class="card">
-                            <a href="{{route('subjects.index', $class->id)}}">
-                                <img class="card-img-top center"
-                                     src="{{$class->image}}"
-                                     alt="Card image cap"
-                                     style="max-width: 150px"
-                                >
+                    @foreach ($years as $year)
+                    <div class="col-md-6">
+                        <div class="card mb-5">
+                            <a href="{{ route('classes.show', $year->id) }}">
+                                <div class="card-img-top center" id="post-body-editor">
+                                    {!! $year->image !!}
+                                </div>
                                 <div class="card-footer">
-                                    <h5 class="card-title">{{$class->name}}</h5>
+                                    <h5 class="card-title">{{ $year->name }}</h5>
                                 </div>
                             </a>
                         </div>
+                    </div>
                     @endforeach
                 </div>
             </div>

@@ -19,7 +19,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/', 'HomeController@index');
+    Route::get('/', 'HomeController@index')->name('landing');
 
     //Alterar Senha
     Route::resource('password_change', 'Auth\ChangePasswordController');
@@ -31,11 +31,15 @@ Route::middleware(['auth'])->group(function () {
     //Comentários
     Route::resource('comments', 'CommentController');
     Route::post('comments/markNotifAsRead', 'CommentController@markNotifAsRead');
-    Route::post('upload_image','CommentController@uploadImage')->name('upload');
+
+    //Anos
+    Route::resource('years', 'YearController')->except(['destroy']);;
+    Route::get('years/destroy/{id}', 'YearController@destroy')->name('years.destroy');
 
     //Matérias
-    Route::resource('classes', 'ClassController')->except(['destroy']);;
+    Route::resource('classes', 'ClassController')->except(['destroy']);
     Route::get('classes/destroy/{id}', 'ClassController@destroy')->name('classes.destroy');
+    Route::get('years/{id}/classes', 'ClassController@getYearClasses')->name('years.classes');
 
     //Assuntos
     Route::resource('subjects', 'SubjectController')->except(['destroy', 'index', 'show']);
@@ -43,8 +47,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('subjects/destroy/{id}', 'SubjectController@destroy')->name('subjects.destroy');
     Route::get('classes/{id}/subjects', 'SubjectController@getClasseSubjects')->name('classes.subjects');
 
+    Route::prefix('upload/image')->group(function () {
+        Route::post('year', 'YearController@uploadImage')->name('years.uploadImage');
+        Route::post('class', 'ClassController@uploadImage')->name('classes.uploadImage');
+        Route::post('post', 'PostController@uploadImage')->name('posts.uploadImage');
+        Route::post('comment', 'CommentController@uploadImage')->name('comments.uploadImage');
+    });
+
     //Segurança
-    Route::prefix('security')->group(function (){
+    Route::prefix('security')->group(function () {
 
         //Usuários
         Route::resource('users', 'UserController')->except(['destroy']);;
@@ -53,6 +64,5 @@ Route::middleware(['auth'])->group(function () {
         //Permissões
         Route::resource('roles', 'RoleController')->except(['destroy']);
         Route::get('roles/{id}/delete', 'RoleController@destroy')->name('roles.destroy');
-
     });
 });

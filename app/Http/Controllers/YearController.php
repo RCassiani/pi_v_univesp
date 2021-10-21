@@ -2,54 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
-use App\Models\Subject;
+use App\Models\Year;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class SubjectController extends Controller
+class YearController extends Controller
 {
-    private $subject;
+    private $year;
 
-    function __construct(Subject $subject)
+    function __construct(Year $year)
     {
-        $this->subject = $subject;
-        $this->middleware('permission:subject-list|subject-create|subject-edit|subject-delete', ['only' => ['index', 'show']]);
-        $this->middleware('permission:subject-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:subject-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:subject-delete', ['only' => ['destroy']]);
+        $this->year = $year;
+        $this->middleware('permission:year-list|year-create|year-edit|year-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:year-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:year-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:year-delete', ['only' => ['destroy']]);
     }
 
     /**
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param int $class_id
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function index(Request $request, $class_id = 0)
+    public function index(Request $request)
     {
-        $class = Classes::find($class_id);
-
         if ($request->ajax()) {
-            $data = ($class_id)
-                ? $this->subject->where('class_id', $class_id)->orderBy('name')
-                : $this->subject->with(['classe'])->orderBy('name');
+            $data = $this->year->orderBy('name');
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('year_class', function($row) {
-                    return $row->year_class;
-                })
-                ->addColumn('action', function ($row) use ($class_id) {
+                ->addColumn('action', function ($row) {
 
-                    if ($class_id) {
-                        $btn = "<a href='" . route('posts.indexList', $row->id) . "' class='btn btn-primary'>Conteúdos</a>";
-                    } else {
-                        $btn = btnEdit(route('subjects.edit', $row->id), 'subject-edit');
-                        $btn .= btnDelete(route('subjects.destroy', $row->id), 'subject-delete');
-                    }
+                    $btn = btnEdit(route('years.edit', $row->id), 'year-edit');
+                    $btn .= btnDelete(route('years.destroy', $row->id), 'year-delete');
 
                     return $btn;
                 })
@@ -57,7 +44,7 @@ class SubjectController extends Controller
                 ->make(true);
         }
 
-        return view('subjects.index', compact('class_id', 'class'));
+        return view('years.index');
     }
 
     /**
@@ -67,8 +54,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        $classes = Classes::get()->pluck('year_class', 'id');
-        return view('subjects.create', compact('classes'));
+        return view('years.create');
     }
 
     /**
@@ -81,15 +67,15 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:subjects,name',
-            'class_id' => 'required',
+            'name' => 'required|unique:years,name',
+            'image' => 'required',
         ]);
 
         try {
-            $subject = $this->subject->create($request->all());
+            $year = $this->year->create($request->all());
             toast()->success(trans('sys.msg.success.save'))->width('25rem');
 
-            return redirect()->route('subjects.index');
+            return redirect()->route('years.index');
         } catch (\Exception $e) {
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.save'));
             return back()->withInput();
@@ -99,7 +85,7 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -110,14 +96,13 @@ class SubjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $subject = $this->subject->find($id);
-        $classes = Classes::pluck('name', 'id')->all();
-        return view('subjects.edit', compact('subject', 'classes'));
+        $year = $this->year->find($id);
+        return view('years.edit', compact('year'));
     }
 
     /**
@@ -131,16 +116,16 @@ class SubjectController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:subjects,name',
+            'name' => 'required|unique:years,name',
             'image' => 'required',
         ]);
 
         try {
-            $class = $this->subject->find($id);
-            $class = $class->update($request->all());
+            $year = $this->year->find($id);
+            $year = $year->update($request->all());
             toast()->success(trans('sys.msg.success.update'))->width('25rem');
 
-            return redirect()->route('subjects.index');
+            return redirect()->route('years.index');
         } catch (\Exception $e) {
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.update'));
             return back()->withInput();
@@ -150,18 +135,18 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         try {
-            $class = $this->subject->find($id);
-            $class->delete();
+            $year = $this->year->find($id);
+            $year->delete();
 
             toast()->success(trans('sys.msg.success.delete'))->width('25rem');
 
-            return redirect()->route('subjects.index');
+            return redirect()->route('years.index');
 
         } catch (\Exception $e) {
 
@@ -171,10 +156,20 @@ class SubjectController extends Controller
         }
     }
 
-    public function getClasseSubjects($class_id)
-    {
-        $subjects = $this->subject->select('id', 'name')->where('class_id', $class_id)->get();
+    public function uploadImage(Request $request) 
+    { 
+        if($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName.'_'.time().'.'.$extension;
+        
+            $request->file('upload')->move(public_path('images/years'), $fileName);
 
-        return response()->json($subjects);
-    }
+            return response()->json([
+                'message' => 'Image uploaded successfully',
+                'url' => asset('images/years/'.$fileName),
+            ]);
+        }
+    } 
 }

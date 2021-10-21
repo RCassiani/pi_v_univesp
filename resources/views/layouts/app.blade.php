@@ -46,7 +46,12 @@
                 @else
                 <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        @can('class-list')
+                        @can(['year-list', 'year-create'])
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('years.index')}}">Anos</a>
+                            </li>
+                        @endcan
+                        @can(['class-list', 'class-create'])
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('classes.index')}}">Matérias</a>
                             </li>

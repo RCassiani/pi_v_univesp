@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Classes;
+use App\Models\Year;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $classes = Classes::all();
-        return view('home', compact('classes'));
+        $years = Year::all();
+        return view('home', compact('years'));
     }
 }

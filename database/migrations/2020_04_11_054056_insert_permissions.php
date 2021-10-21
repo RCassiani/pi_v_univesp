@@ -14,6 +14,11 @@ class InsertPermissions extends Migration
     public function up()
     {
         DB::table('permissions')->insert([
+            ['name' => 'year-list', 'display_name' => 'Anos - Consultar', 'guard_name' => 'web'],
+            ['name' => 'year-create', 'display_name' => 'Anos - Cadastrar', 'guard_name' => 'web'],
+            ['name' => 'year-edit', 'display_name' => 'Anos - Editar', 'guard_name' => 'web'],
+            ['name' => 'year-delete', 'display_name' => 'Anos - Excluir', 'guard_name' => 'web'],
+
             ['name' => 'class-list', 'display_name' => 'Matérias - Consultar', 'guard_name' => 'web'],
             ['name' => 'class-create', 'display_name' => 'Matérias - Cadastrar', 'guard_name' => 'web'],
             ['name' => 'class-edit', 'display_name' => 'Matérias - Editar', 'guard_name' => 'web'],

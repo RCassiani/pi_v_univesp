@@ -9,7 +9,8 @@
     color: #f44455;
 }
 
-.is-invalid-input:focus, .is-invalid-input {
+.is-invalid-input:focus,
+.is-invalid-input {
     border-color: #dc3545;
 }
 
@@ -91,4 +92,13 @@
 
 .row-form {
     margin: unset;
+}
+
+.ckeditor-readonly figure,
+.ck-read-only figure {
+    outline: none;
+}
+
+.card-img-top img {
+    width: auto;
 }

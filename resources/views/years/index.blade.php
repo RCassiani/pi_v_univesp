@@ -8,11 +8,11 @@
                 <div class="box">
                     <div class="box-header">
                         <div class="pull-left">
-                            <h4><b>Matérias - {{__('label.list')}}</b></h4>
+                            <h4><b>Anos - {{__('label.list')}}</b></h4>
                         </div>
                         <div class="pull-right pb-4">
                             @can('class-create')
-                                {!! btnNew(route('classes.create')) !!}
+                                {!! btnNew(route('years.create')) !!}
                             @endcan
                         </div>
                     </div>
@@ -22,9 +22,6 @@
                             <thead>
                             <tr>
                                 <th>Nome</th>
-                                @if($year_id <= 0)
-                                    <th>Ano</th>
-                                @endif
                                 <th width="100px">{{__('label.form.action')}}</th>
                             </tr>
                             </thead>
@@ -35,7 +32,6 @@
                 </div>
             </div>
         </div>
-        <input type="hidden" id="year_id" name="year_id" value="{{$year_id}}">
     </div>
 
 
@@ -44,20 +40,14 @@
         <script>
             $(function () {
 
-                const year_id = $("#year_id").val();
-                const url = "{{route('classes.index', '_id_')}}".replace('_id_', year_id);
-
-                let arrColumn = [{data: 'name', name: 'name'}];
-                if (year_id <= 0) {
-                    arrColumn.push({data: 'year.name', name: 'year.name'});
-                }
-                arrColumn.push({data: 'action', name: 'action', orderable: false, searchable: false});
-
                 var table = $('#class-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: url,
-                    columns: arrColumn,
+                    ajax: "{{ route('years.index') }}",
+                    columns: [
+                        {data: 'name', name: 'name'},
+                        {data: 'action', name: 'action', orderable: false, searchable: false},
+                    ],
                     language: {
                         url: "{{asset('datatable-pt-BR.json')}}"
                     }

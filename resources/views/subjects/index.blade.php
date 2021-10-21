@@ -3,16 +3,25 @@
 @section('content')
 
     <div class="container">
+        <div class="pull-left">
+            <a href="{{ route('classes.show', $class->year_id) }}">
+                <span class="btn btn-primary py-1 px-2">
+                    <i class="fa fa-arrow-circle-left fa-2x"></i>
+                </span>
+            </a>
+        </div>
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="box">
                     <div class="box-header">
-                        <div class="pull-left">
-                            @if($class)
-                                <h4><b>Assuntos - {{$class->name}}</b></h4>
-                            @else
-                                <h4><b>Assuntos - {{__('label.list')}}</b></h4>
-                            @endif
+                        <div class="row justify-content-center">
+                            <div class="pull-left">
+                                @if($class)
+                                    <h1><b>{{$class->year_class}} - Assuntos</b></h1>
+                                @else
+                                    <h1><b>Assuntos - {{__('label.list')}}</b></h1>
+                                @endif
+                            </div>
                         </div>
                         <div class="pull-right pb-4">
                             @can('subject-create')
@@ -53,11 +62,9 @@
 
                 let arrColumn = [{data: 'name', name: 'name'}];
                 if (class_id <= 0) {
-                    arrColumn.push({data: 'classe.name', name: 'classe.name'});
+                    arrColumn.push({data: 'year_class', name: 'year_class'});
                 }
                 arrColumn.push({data: 'action', name: 'action', orderable: false, searchable: false});
-
-                console.log(arrColumn);
 
                 var table = $('#subject-table').DataTable({
                     processing: true,
