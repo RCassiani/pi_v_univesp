@@ -43,12 +43,6 @@ var swalAlert = function (element, showCancel){
         }).then((result) => {
             if(result.value){
                 window.location.href = href;
-            }else if (showCancel) {
-                Swal.fire({
-                    title: sa_popupTitleCancel,
-                    text: sa_popupMessageCancel,
-                    icon: "error"
-                });
             }
         });
     });

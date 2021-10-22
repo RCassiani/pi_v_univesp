@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
+
+    use SoftDeletes;
+
     protected $dates = ['deleted_at'];
 
     /**
@@ -33,5 +38,9 @@ class Comment extends Model
     public function replies()
     {
         return $this->hasMany(Comment::class, 'parent_id');
+    }
+
+    public function getCreatedAtAttribute($value) {
+        return Carbon::parse($value)->format('d/m/Y H:i');
     }
 }

@@ -102,3 +102,11 @@
 .card-img-top img {
     width: auto;
 }
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    justify-content: center;
+}
+
+.child-comment {
+    margin-left: 2rem;
+}

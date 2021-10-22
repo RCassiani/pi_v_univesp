@@ -33,13 +33,14 @@ class SubjectController extends Controller
         $class = Classes::find($class_id);
 
         if ($request->ajax()) {
-            $data = ($class_id)
-                ? $this->subject->where('class_id', $class_id)->orderBy('name')
-                : $this->subject->with(['classe'])->orderBy('name');
+            $data = $this->subject->with('classe')
+                ->when($class_id, function ($query, $class_id) {
+                    return $query->where('class_id', $class_id);
+                })->orderBy('name');
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('year_class', function($row) {
+                ->addColumn('year_class', function ($row) {
                     return $row->year_class;
                 })
                 ->addColumn('action', function ($row) use ($class_id) {
@@ -162,12 +163,10 @@ class SubjectController extends Controller
             toast()->success(trans('sys.msg.success.delete'))->width('25rem');
 
             return redirect()->route('subjects.index');
-
         } catch (\Exception $e) {
 
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.delete'));
             return back()->withInput();
-
         }
     }
 

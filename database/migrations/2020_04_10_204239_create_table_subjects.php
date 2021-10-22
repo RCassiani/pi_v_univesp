@@ -18,6 +18,7 @@ class CreateTableSubjects extends Migration
             $table->string('name');
             $table->bigInteger('class_id')->unsigned();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('class_id')->references('id')->on('classes');
         });

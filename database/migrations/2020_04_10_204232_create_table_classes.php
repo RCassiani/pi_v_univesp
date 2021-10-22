@@ -19,6 +19,7 @@ class CreateTableClasses extends Migration
             $table->bigInteger('year_id')->unsigned();
             $table->text('image');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('year_id')->references('id')->on('years');
         });

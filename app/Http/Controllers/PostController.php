@@ -7,6 +7,7 @@ use App\Models\Classes;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Yajra\DataTables\DataTables;
 
 class PostController extends Controller
 {
@@ -17,18 +18,38 @@ class PostController extends Controller
      * @param $subject_id
      * @return \Illuminate\Http\Response
      */
-    public function index($subject_id = 0)
+    public function index(Request $request, $subject_id = 0)
     {
         $subject = Subject::find($subject_id);
 
-        $posts = Post::with('subject')
-            ->when($subject, function ($query, $subject) {
-                return $query->where('subject_id', $subject->id);
-            })
-            ->latest()
-            ->get();
+        if ($request->ajax()) {
+            $data = Post::with('subject')
+                ->when($subject, function ($query, $subject) {
+                    return $query->where('subject_id', $subject->id);
+                })
+                ->latest();
 
-        return view('posts.index', compact('posts', 'subject'));
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('year_class_subject', function ($row) {
+                    return $row->subject->year_class . " - " . $row->subject->name;
+                })
+                ->addColumn('action', function ($row) use ($subject_id) {
+
+                    if ($subject_id) {
+                        $btn = "<a href='" . route('posts.show', $row->id) . "' class='btn btn-primary'>Visualizar</a>";
+                    } else {
+                        $btn = btnEdit(route('posts.edit', $row->id), 'post-edit');
+                        $btn .= btnDelete(route('posts.destroy', $row->id), 'post-delete');
+                    }
+
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('posts.index', compact('subject', 'subject_id'));
     }
 
     /**
@@ -72,7 +93,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
+        $post = Post::with('subject')->find($id);
 
         $notifications = auth()->user()->notifications()->get();
         foreach ($notifications as $notification) {

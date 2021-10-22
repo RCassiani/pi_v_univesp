@@ -29,11 +29,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('posts/{subject_id?}/list', 'PostController@index')->name('posts.indexList');
 
     //Comentários
-    Route::resource('comments', 'CommentController');
+    Route::resource('comments', 'CommentController')->except(['destroy']);
+    Route::get('comments/destroy/{id}', 'CommentController@destroy')->name('comments.destroy');
     Route::post('comments/markNotifAsRead', 'CommentController@markNotifAsRead');
 
     //Anos
-    Route::resource('years', 'YearController')->except(['destroy']);;
+    Route::resource('years', 'YearController')->except(['destroy']);
     Route::get('years/destroy/{id}', 'YearController@destroy')->name('years.destroy');
 
     //Matérias

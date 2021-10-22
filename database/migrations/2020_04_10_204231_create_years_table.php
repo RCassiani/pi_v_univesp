@@ -18,6 +18,7 @@ class CreateYearsTable extends Migration
             $table->string('name');
             $table->text('image');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
