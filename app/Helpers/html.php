@@ -54,8 +54,8 @@ if (!function_exists('btnDelete')) {
                 data-sa-popuptitlecancel="' . trans('sys.alert.delete.sa_popupTitleCancel') . '"
                 data-original-title="' . trans('sys.btn.delete') . '"
                 data-placement="top"
-                class="btn btn-delete">
-                <i class="material-icons md-12" id="grid-delete">delete</i>
+                class="btn btn-delete p-2">
+                <i class="material-icons md-24" id="grid-delete">delete</i>
                 </span>';
         }
         return false;
@@ -67,7 +67,7 @@ if (!function_exists('btnEdit')) {
     function btnEdit($url, $permission)
     {
         if (Auth::user()->isSuperAdmin() || Auth::user()->hasPermissionTo($permission))
-            return '<a href="' . $url . '" class="btn btn-edit"><i class="material-icons md-12" id="grid-edit">edit</i></a>';
+            return '<a href="' . $url . '" class="btn btn-edit p-2"><i class="material-icons md-24" id="grid-edit">edit</i></a>';
         return false;
     }
 }

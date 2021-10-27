@@ -132,13 +132,13 @@ class SubjectController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:subjects,name',
-            'image' => 'required',
+            'name' => "required|unique:subjects,name,$id",
+            'class_id' => 'required',
         ]);
 
         try {
-            $class = $this->subject->find($id);
-            $class = $class->update($request->all());
+            $subject = $this->subject->find($id);
+            $subject = $subject->update($request->all());
             toast()->success(trans('sys.msg.success.update'))->width('25rem');
 
             return redirect()->route('subjects.index');

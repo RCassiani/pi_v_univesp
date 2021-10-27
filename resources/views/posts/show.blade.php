@@ -34,11 +34,11 @@
                         <h3><b>{{ $post->title }}</b></h3>
                         <div class="ckeditor-custom-comments" id="post-body-editor">{!! $post->body !!}</div>
                         <hr />
-                        <h4 class="text-center">Comentários</h4>
+                        <h4 class="text-center"><i class="material-icons md-24">forum</i> Comentários</h4>
 
                         @include('posts.comments', ['comments' => $post->comments, 'post_id' => $post->id])
 
-                        <h4>Novo Comentário</h4>
+                        <h4 class="mt-5">Novo Comentário</h4>
                         <form method="post" action="{{ route('comments.store') }}">
                             @csrf
                             <div class="form-group">

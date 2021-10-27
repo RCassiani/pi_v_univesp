@@ -110,3 +110,19 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 .child-comment {
     margin-left: 2rem;
 }
+
+.action-btn {
+    float: right;
+}
+
+.comment-user-data {
+    float: left;
+}
+
+.comment-header {
+    display: flow-root;
+}
+
+.btn-comment:hover {
+    color: #3490dc;
+}

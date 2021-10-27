@@ -12,21 +12,21 @@
         </div>
         <div class="form-group">
             {{ Form::label('year_id', 'Ano') }} <span style="color:red">*</span>
-            {{ Form::select('year_id', $years, null, ['id' => 'year_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('year_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
+            {{ Form::select('year_id', $years, $post->subject->classe->year_id ?? null, ['id' => 'year_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('year_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
             @error('year_id')
                 <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             {{ Form::label('class_id', 'Matéria') }} <span style="color:red">*</span>
-            {{ Form::select('class_id', [], null, ['id' => 'class_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('class_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
+            {{ Form::select('class_id', $classes ?? [], $post->subject->class_id ?? null, ['id' => 'class_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('class_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
             @error('class_id')
                 <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
         </div>
         <div class="form-group">
             {{ Form::label('subject_id', 'Assunto') }} <span style="color:red">*</span>
-            {{ Form::select('subject_id', [], null, ['id' => 'subject_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('subject_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
+            {{ Form::select('subject_id', $subjects ?? [], $post->subject_id ?? null, ['id' => 'subject_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('subject_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
             @error('subject_id')
                 <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
             @enderror
@@ -98,6 +98,8 @@
                         console.error(error);
                     });
             });
+
+            runConfirmCancel();
         });
 
         function MyCustomUploadAdapterPlugin(editor) {

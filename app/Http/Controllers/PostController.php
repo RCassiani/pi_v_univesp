@@ -31,8 +31,12 @@ class PostController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('year_class_subject', function ($row) {
-                    return $row->subject->year_class . " - " . $row->subject->name;
+                ->addColumn('year_class_subject', function ($row) use ($subject_id) {
+                    $column = '';
+                    if (!$subject_id) {
+                        $column = $row->subject->year_class . " - " . $row->subject->name;
+                    }
+                    return $column;
                 })
                 ->addColumn('action', function ($row) use ($subject_id) {
 
@@ -74,6 +78,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'body' => 'required',
+            'subject_id' => 'required',
         ]);
 
         $input = $request->all();
@@ -105,12 +110,48 @@ class PostController extends Controller
         return view('posts.show', compact('post'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
-        $post = Post::find($id);
-        $classes = Classes::pluck('name', 'id')->all();
+        $post = Post::with('subject')->find($id);
         $years = Year::pluck('name', 'id')->all();
-        return view('posts.create', compact('post', 'classes', 'years'));
+        $classes = Classes::where('year_id', $post->subject->classe->year_id)->pluck('name', 'id');
+        $subjects = Subject::where('class_id', $post->subject->class_id)->pluck('name', 'id');
+
+        return view('posts.edit', compact('post', 'years', 'classes', 'subjects'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+            'subject_id' => 'required',
+        ]);
+
+        try {
+            $post = Post::find($id);
+            $post = $post->update($request->all());
+            toast()->success(trans('sys.msg.success.update'))->width('25rem');
+
+            return redirect()->route('posts.index');
+        } catch (\Exception $e) {
+            alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.update'));
+            return back()->withInput();
+        }
     }
 
     public function uploadImage(Request $request)

@@ -19,7 +19,15 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="pull-left">
-                            <h2><b>{{ $subject->classe->name }} - {{ $subject->name }}</b></h2>
+                            <h2>
+                                <b>
+                                    @if ($subject)
+                                        {{ $subject->classe->name }} - {{ $subject->name }}
+                                    @else
+                                        Publicações
+                                    @endif
+                                </b>
+                            </h2>
                         </div>
                         @can('post-create')
                             <div class="pull-right">
@@ -37,7 +45,7 @@
                                     <tr>
                                         <th>Publicação</th>
                                         <th>Criada em</th>
-                                        @if (empty($subject_id))
+                                        @if (empty($subject))
                                             <th>Ano - Matéria - Assunto</th>
                                         @endif
                                         <th width="100px">{{ __('label.form.action') }}</th>
@@ -59,7 +67,8 @@
             $(function() {
 
                 const subject_id = $("#subject_id").val();
-                const url = "{{ route('posts.indexList', '_id_') }}".replace('_id_', subject_id);
+                const url = (!subject_id) ? "{{ route('posts.index') }}" :
+                    "{{ route('posts.indexList', '_id_') }}".replace('_id_', subject_id);
 
                 let arrColumn = [{
                         data: 'title',
@@ -70,7 +79,7 @@
                         name: 'created_at'
                     }
                 ];
-                if (!subject_id) {
+                if (subject_id <= 0) {
                     arrColumn.push({
                         data: 'year_class_subject',
                         name: 'year_class_subject'

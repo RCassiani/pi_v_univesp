@@ -2,12 +2,14 @@
 
 @section('content')
 
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
             {{ Form::open(['route' => 'users.store']) }}
                 @include('users.form', ['page_title' => 'Usuários - '.__('label.new')])
             {{{Form::close()}}}
         </div>
     </div>
+</div>
 
 @endsection
