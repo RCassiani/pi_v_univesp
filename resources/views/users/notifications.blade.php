@@ -8,22 +8,18 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="pull-left">
-                            <h1><b>Anos - {{ __('label.list') }}</b></h1>
-                        </div>
-                        <div class="pull-right">
-                            @can('class-create')
-                                {!! btnNew(route('years.create')) !!}
-                            @endcan
+                            <h4><b>Notificações - {{ __('label.list') }}</b></h4>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered"
-                                id="class-table">
+                                id="notification-table">
                                 <thead>
                                     <tr>
-                                        <th>Nome</th>
-                                        <th width="100px">{{ __('label.form.action') }}</th>
+                                        <th>Notificação</th>
+                                        <th>Data</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -42,13 +38,17 @@
         <script>
             $(function() {
 
-                var table = $('#class-table').DataTable({
+                var table = $('#notification-table').DataTable({
                     processing: true,
                     serverSide: true,
-                    ajax: "{{ route('years.index') }}",
+                    ajax: "{{ route('users.indexNotifications') }}",
                     columns: [{
-                            data: 'name',
-                            name: 'name'
+                            data: 'data',
+                            name: 'data'
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at'
                         },
                         {
                             data: 'action',

@@ -4,20 +4,21 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h1><strong>{{ env('APP_NAME') }}</strong></h1>
-                <h3 class="pt-3">Seja bem-vindo ao portal mais completo de ensino e aprendizagem, onde você é responsável pelo seu
-                    aprendizado.
-                    Aqui você pesquisa, aprende, reproduz, ensina, compartilha ideias e muito mais.</h3>
-            </div>
-            <div class="col-md-6">
-                <div class="card">
+                <div class="login-card-title mb-5 p-3">
+                    <h1><strong>{{ env('APP_NAME') }}</strong></h1>
+                    <h4 class="my-3">Seja bem-vindo ao portal mais completo de ensino e aprendizagem, onde você
+                        é
+                        responsável pelo seu
+                        aprendizado.
+                        Aqui você pesquisa, aprende, reproduz, ensina, compartilha ideias e muito mais.</h4>
+                </div>
+                <div class="card login-card-body">
                     <div class="card-header">
-                        <h3>Login</h3>
+                        <h3><strong>Login</strong></h3>
                     </div>
                     <div class="card-body">
-
                         <div class="avatar">
-                            <i class="fa fa-user fa-5x"></i>
+                            <i class="fa fa-user fa-3x"></i>
                         </div>
                         <p class="text-center">Entre com seu e-mail e senha para realizar o login</p>
 

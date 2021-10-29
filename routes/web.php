@@ -55,6 +55,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('comment', 'CommentController@uploadImage')->name('comments.uploadImage');
     });
 
+    //Notificações
+    Route::get('notifications', 'UserController@indexNotifications')->name('users.indexNotifications');
+
     //Segurança
     Route::prefix('security')->group(function () {
 

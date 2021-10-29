@@ -19,15 +19,11 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="pull-left">
-                            <h2>
-                                <b>
-                                    @if ($subject)
-                                        {{ $subject->classe->name }} - {{ $subject->name }}
-                                    @else
-                                        Publicações
-                                    @endif
-                                </b>
-                            </h2>
+                            @if ($subject)
+                                <h2><b>{{ $subject->classe->name }} - {{ $subject->name }}</b></h2>
+                            @else
+                                <h1><b>Publicações</b></h1>
+                            @endif
                         </div>
                         @can('post-create')
                             <div class="pull-right">

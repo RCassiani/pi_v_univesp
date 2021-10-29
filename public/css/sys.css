@@ -30,7 +30,7 @@
 }
 
 .notification {
-    color: white;
+    color: #0066cc !important;
     text-decoration: none;
     /*padding: 15px 26px;*/
     position: relative;
@@ -57,12 +57,16 @@
     margin-left: 20px;
     border: 2px;
     border-radius: 20px;
-    background-color: gray;
+    background-color: #0066cc;
     color: white !important;
 }
 
 .new-notification {
     width: 300px !important;
+}
+
+.new-notification .break {
+    border-bottom: 1px solid #0066cc;
 }
 
 .break {
@@ -71,16 +75,10 @@
 }
 
 .avatar {
-    color: #fff;
-    margin: 0 auto 30px;
+    color: #0066cc;
+    margin: 0 auto 20px;
     text-align: center;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
     z-index: 9;
-    background: #3490dc;
-    padding: 15px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
 
 .comment-active {
@@ -125,4 +123,49 @@ div.dataTables_wrapper div.dataTables_paginate ul.pagination {
 
 .btn-comment:hover {
     color: #3490dc;
+}
+
+.noauth-bg {
+    background: url(../images/bg/bg_blur.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.btn-primary {
+    background-color: #0066cc;
+}
+
+.login-card-title,.login-card-body {
+    border: 3px solid #ff9933;
+    border-radius: 10px;
+    background-color: rgba(255, 153, 51, 0.7);
+}
+
+.login-card-title h1 {
+    color: #0066cc;
+}
+
+.login-card-body .card-header {
+    background-color: #ff9933;
+    color: #0066cc;
+}
+
+.navbar {
+    background-color: rgba(255, 153, 51, 0.90);
+}
+
+body {
+    background-color:#f4f9ff;
+    font-size: 1rem;
+}
+
+.navbar-brand {
+    color: #0066cc;
+}
+
+.nav-link {
+    color: #111111;
 }

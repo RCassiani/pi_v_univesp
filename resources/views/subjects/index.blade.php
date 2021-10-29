@@ -23,7 +23,7 @@
                             @if ($class)
                                 <h2><b>{{ $class->name }}</b></h2>
                             @else
-                                <h2><b>Assuntos - {{ __('label.list') }}</b></h2>
+                                <h1><b>Assuntos - {{ __('label.list') }}</b></h1>
                             @endif
                         </div>
                         <div class="pull-right pb-1">

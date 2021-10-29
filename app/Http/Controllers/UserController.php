@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Yajra\Datatables\Datatables;
@@ -57,6 +58,32 @@ class UserController extends Controller
         return view('users.index');
     }
 
+    public function indexNotifications(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Auth::user()->notifications()->latest()->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('data', function ($row) {
+                    $content = "<strong>" . $row->data['user']['name'] . "</strong>";
+                    $content .= (!empty($row->data['comment']['parent_id'])) ? ' respondeu seu comentário' : ' comentou';
+                    $content .= " na publicação <strong>" . $row->data['post']['title'] . "</strong>";
+
+                    return $content;
+                })
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at->format('d/m/Y H:i');
+                })
+                ->addColumn('action', function ($row) {
+                    return "<a href='" . route('posts.show', $row->data['post']['id']) . "?cmd=" . $row->data['comment']['id'] . "' class='btn btn-primary'>Ver</a>";
+                })
+                ->rawColumns(['data', 'action'])
+                ->make(true);
+        }
+
+        return view('users.notifications');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -93,12 +120,10 @@ class UserController extends Controller
 
             toast()->success(trans('sys.msg.success.save'))->width('25rem');
             return redirect()->route('users.index');
-
         } catch (\Exception $e) {
 
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.save'));
             return back()->withInput();
-
         }
     }
 
@@ -141,12 +166,10 @@ class UserController extends Controller
             toast()->success(trans('sys.msg.success.update'))->width('25rem');
 
             return redirect()->route('users.index');
-
         } catch (\Exception $e) {
 
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.update'));
             return back()->withInput();
-
         }
     }
 
@@ -165,12 +188,10 @@ class UserController extends Controller
             toast()->success(trans('sys.msg.success.delete'))->width('25rem');
 
             return redirect()->route('users.index');
-
         } catch (\Exception $e) {
 
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.delete'));
             return back()->withInput();
-
         }
     }
 }
