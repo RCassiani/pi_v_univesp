@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="login-card-title mb-5 p-3">
+                <div class="login-card-title mb-3 p-3">
                     <h1><strong>{{ env('APP_NAME') }}</strong></h1>
-                    <h4 class="my-3">Seja bem-vindo ao portal mais completo de ensino e aprendizagem, onde você
+                    <h5 class="my-3">Seja bem-vindo ao portal mais completo de ensino e aprendizagem, onde você
                         é
                         responsável pelo seu
                         aprendizado.
-                        Aqui você pesquisa, aprende, reproduz, ensina, compartilha ideias e muito mais.</h4>
+                        Aqui você pesquisa, aprende, reproduz, ensina, compartilha ideias e muito mais.</h5>
                 </div>
                 <div class="card login-card-body">
                     <div class="card-header">
