@@ -163,11 +163,11 @@ class YearController extends Controller
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
 
-            Storage::disk('local')->put('public/images/years/' . $fileName, file_get_contents($request->file('upload')));
+            $request->file('upload')->move(public_path('images/years'), $fileName);
 
             return response()->json([
                 'message' => 'Image uploaded successfully',
-                'url' => asset('storage/images/years/' . $fileName),
+                'url' => asset('images/years/'.$fileName),
             ]);
         }
     }

@@ -174,11 +174,11 @@ class ClassController extends Controller
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
 
-            Storage::disk('local')->put('public/images/classes/' . $fileName, file_get_contents($request->file('upload')));
+            $request->file('upload')->move(public_path('images/classes'), $fileName);
 
             return response()->json([
                 'message' => 'Image uploaded successfully',
-                'url' => asset('storage/images/classes/' . $fileName),
+                'url' => asset('images/classes/' . $fileName),
             ]);
         }
     }
