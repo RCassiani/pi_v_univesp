@@ -117,7 +117,7 @@ class SubjectController extends Controller
     public function edit($id)
     {
         $subject = $this->subject->find($id);
-        $classes = Classes::pluck('name', 'id')->all();
+        $classes = Classes::get()->pluck('year_class', 'id');
         return view('subjects.edit', compact('subject', 'classes'));
     }
 

@@ -19,7 +19,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('year_id', 'Ano') }} <span style="color:red">*</span>
-            {{ Form::select('year_id', $years, null, ['id' => 'year_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('year_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
+            {{ Form::select('year_id', $years, $year ?? null, ['id' => 'year_id', 'placeholder' => 'Selecione...', 'class' => $errors->has('year_id') ? 'form-control is-invalid-input' : 'form-control', 'required']) }}
             @error('year_id')
                 <span class="is-invalid-feedback" role="alert">{{ $message }}</span>
             @enderror

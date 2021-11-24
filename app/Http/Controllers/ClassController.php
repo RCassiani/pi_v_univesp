@@ -6,6 +6,7 @@ use App\Models\Classes;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class ClassController extends Controller
 {
@@ -110,8 +111,10 @@ class ClassController extends Controller
      */
     public function edit($id)
     {
-        $class = $this->class->find($id);
-        return view('classes.edit', compact('class'));
+        $class = $this->class->with('year')->find($id);
+        $years = Year::pluck('name', 'id')->all();
+        $year = Year::find($class->year_id);
+        return view('classes.edit', compact('class', 'years'));
     }
 
     /**
@@ -125,7 +128,7 @@ class ClassController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:classes,name',
+            'name' => "required|unique:classes,name,$id",
             'image' => 'required',
         ]);
 
@@ -171,11 +174,11 @@ class ClassController extends Controller
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
 
-            $request->file('upload')->move(public_path('images/classes'), $fileName);
+            Storage::disk('local')->put('public/images/classes/' . $fileName, file_get_contents($request->file('upload')));
 
             return response()->json([
                 'message' => 'Image uploaded successfully',
-                'url' => asset('images/classes/' . $fileName),
+                'url' => asset('storage/images/classes/' . $fileName),
             ]);
         }
     }

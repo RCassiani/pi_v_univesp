@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Storage;
 
 class YearController extends Controller
 {
@@ -116,7 +117,7 @@ class YearController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:years,name',
+            'name' => "required|unique:years,name,$id",
             'image' => 'required',
         ]);
 
@@ -147,29 +148,27 @@ class YearController extends Controller
             toast()->success(trans('sys.msg.success.delete'))->width('25rem');
 
             return redirect()->route('years.index');
-
         } catch (\Exception $e) {
 
             alert()->error(trans('sys.msg.alert-error'), trans('sys.msg.error.delete'));
             return back()->withInput();
-
         }
     }
 
-    public function uploadImage(Request $request) 
-    { 
-        if($request->hasFile('upload')) {
+    public function uploadImage(Request $request)
+    {
+        if ($request->hasFile('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $request->file('upload')->getClientOriginalExtension();
-            $fileName = $fileName.'_'.time().'.'.$extension;
-        
-            $request->file('upload')->move(public_path('images/years'), $fileName);
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+
+            Storage::disk('local')->put('public/images/years/' . $fileName, file_get_contents($request->file('upload')));
 
             return response()->json([
                 'message' => 'Image uploaded successfully',
-                'url' => asset('images/years/'.$fileName),
+                'url' => asset('storage/images/years/' . $fileName),
             ]);
         }
-    } 
+    }
 }
