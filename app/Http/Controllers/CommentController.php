@@ -29,17 +29,15 @@ class CommentController extends Controller
 
         $comment = Comment::create($input);
 
-        if ($post->user_id != $comment->user_id) {
-            $user = User::find($post->user_id);
-            $user->notify(new NewCommentPost($comment));
-        }
-
         if (isset($comment->parent_id)) {
             $reply = Comment::find($comment->parent_id);
             if ($reply->user_id != $comment->user_id) {
                 $user = User::find($reply->user_id);
                 $user->notify(new NewCommentPost($comment));
             }
+        }elseif ($post->user_id != $comment->user_id) {
+            $user = User::find($post->user_id);
+            $user->notify(new NewCommentPost($comment));
         }
 
         toast()->success(trans('sys.msg.success.comment.insert'))->width('25rem');

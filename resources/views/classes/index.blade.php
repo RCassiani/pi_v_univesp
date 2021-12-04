@@ -76,7 +76,8 @@
                     },
                     lengthChange: false,
                     info: false,
-                    dom: '<"top"f>rt<"bottom"p><"clear">'
+                    dom: '<"top"f>rt<"bottom"p><"clear">',
+                    order: [[0]],
                 });
 
                 runConfirmDelete();
