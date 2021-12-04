@@ -28,7 +28,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
-                        <h2><b>{{ $post->subject->classe->name }} - {{ $post->subject->name }}</b></h2>
+                        <h2><b>{{ $post->subject->name }}</b></h2>
                     </div>
                     <div class="card-body">
                         <h3><b>{{ $post->title }}</b></h3>

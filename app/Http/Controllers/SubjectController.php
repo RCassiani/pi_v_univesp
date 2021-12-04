@@ -82,7 +82,7 @@ class SubjectController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:subjects,name',
+            'name' => "required|unique:subjects,name,NULL,id,class_id,$request->class_id",
             'class_id' => 'required',
         ]);
 
@@ -132,7 +132,7 @@ class SubjectController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => "required|unique:subjects,name,$id",
+            'name' => "required|unique:subjects,name,$id,id,class_id,$request->class_id",
             'class_id' => 'required',
         ]);
 
