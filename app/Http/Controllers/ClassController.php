@@ -74,7 +74,7 @@ class ClassController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:classes,name',
+            'name' => 'required|unique:classes,name,NULL,id,year_id,'.$request->year_id,
             'image' => 'required',
             'year_id' => 'required',
         ]);
@@ -128,7 +128,7 @@ class ClassController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => "required|unique:classes,name,$id",
+            'name' => "required|unique:classes,name,$id,id,year_id,$request->year_id",
             'image' => 'required',
         ]);
 
